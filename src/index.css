@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+body{
+    @apply bg-zinc-900 text-white
+}
+
+/* Hide Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide IE, Edge */
+}
