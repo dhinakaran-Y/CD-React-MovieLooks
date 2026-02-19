@@ -1,3 +1,4 @@
+import Anchor from "./Anchor";
 import MovieCard from "./MovieCard";
 
 const movieDataArr = [
@@ -34,8 +35,8 @@ const movieDataArr = [
 const TheHero = () => {
   return (
     <section className="my-10 h-140 overflow-x-scroll *:w-full flex *:shrink-0 no-scrollbar *:even:bg-amber-600">
-      {movieDataArr.map(movie => {
-        return <MovieCard title={movie.title} desc={movie.desc} img1={movie.img1} img2={movie.img2} genre={movie.genre}/>
+      {movieDataArr.map((movie,index) => {
+        return <MovieCard title={movie.title} desc={movie.desc} img1={movie.img1} num={index} img2={movie.img2} genre={movie.genre}/>
       })}
     </section>
   );
