@@ -1,9 +1,9 @@
 import GenreBatch from "./GenreBatch";
 import { useState } from "react";
+import RatingBatch from "./RatingBatch";
 
-const MovieCard = ({ title, desc, img1 , img2 , genre, num}) => {
-
-  
+const MovieCard = ({ title, desc, img1, img2, genre, num }) => {
+  const ratingLoopArr = [1, 2, 3, 4, 5];
   const [quantity, setQuantity] = useState(1);
 
   return (
@@ -19,7 +19,7 @@ const MovieCard = ({ title, desc, img1 , img2 , genre, num}) => {
             ))}
           </div>
           {/* star */}
-          <div className="flex items-center px-2 py-1 rounded">
+          {/* <div className="flex items-center px-2 py-1 rounded">
             <button
               className="bg-zinc-800 hover:bg-zinc-700 cursor-pointer flex items-center pb-1 justify-center rounded-full text-white text-xl font-bold ml-2 h-8 w-8"
               onClick={() => setQuantity(() => Math.max(1, quantity - 1))}>
@@ -40,6 +40,22 @@ const MovieCard = ({ title, desc, img1 , img2 , genre, num}) => {
                   />
                 </svg>
               </span>
+            </div>
+            <button
+              className="bg-zinc-800 hover:bg-zinc-700 cursor-pointer flex items-center pb-1 justify-center rounded-full text-white text-xl font-bold ml-2 h-8 w-8"
+              onClick={() => setQuantity(() => Math.min(5, quantity + 1))}>
+              +
+            </button>
+          </div> */}
+          {/* star - 2 */}
+          <div className="flex items-center px-2 py-1 rounded">
+            <button
+              className="bg-zinc-800 hover:bg-zinc-700 cursor-pointer flex items-center pb-1 justify-center rounded-full text-white text-xl font-bold ml-2 h-8 w-8"
+              onClick={() => setQuantity(() => Math.max(1, quantity - 1))}>
+              -
+            </button>
+            <div className="flex ml-2 font-medium space-x-1 justify-center items-center">
+              {ratingLoopArr.map(star => <RatingBatch index={star} quantity={quantity} num={num}/>)}
             </div>
             <button
               className="bg-zinc-800 hover:bg-zinc-700 cursor-pointer flex items-center pb-1 justify-center rounded-full text-white text-xl font-bold ml-2 h-8 w-8"

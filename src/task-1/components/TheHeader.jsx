@@ -1,8 +1,9 @@
+import Dropdown from "./Dropdown";
 import Anchor from "./Anchor";
 
 const TheHeader = () => {
     return (
-      <header>
+      <header className="flex justify-between px-10 items-center">
         <div className="flex space-x-2 items-center container p-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +21,7 @@ const TheHeader = () => {
           </svg>
           <p className="text-2xl font-sans font-extrabold">MovieLooks</p>
         </div>
-        <Anchor path={"task-2.html"} link={"Task-2"} />
+        <Dropdown/>
       </header>
     );
 }

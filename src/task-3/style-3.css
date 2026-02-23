@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+body{
+    @apply bg-linear-to-br from-slate-900 via-violet-900 to-slate-900 bg-no-repeat min-h-screen
+}
