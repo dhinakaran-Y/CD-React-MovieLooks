@@ -1,11 +1,10 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./style-3.css";
 import Accordion from "./components-3/Accordion";
 import Dropdown from "./components-3/Dropdown";
-import Anchor from "../task-1/components/Anchor";
-import RatingBatch from "../task-1/components/RatingBatch";
+import Anchor from "../task-1/components/Anchor"
 import RatingDiv from "./components-3/RatingDiv";
+import RatingDiv2 from "./components-3/RatingDiv2";
 
 const accordionData = [
   {
@@ -48,7 +47,10 @@ createRoot(document.getElementById("root")).render(
     </div>
     <hr />
     <div className="flex justify-center py-10">
-      <RatingDiv/>
+      <RatingDiv />
+    </div>
+    <div className="flex justify-center py-10">
+      <RatingDiv2 />
     </div>
   </>,
 );
