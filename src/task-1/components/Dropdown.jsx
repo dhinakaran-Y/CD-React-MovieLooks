@@ -31,6 +31,11 @@ export default function Dropdown() {
               className="px-4 py-2 hover:bg-zinc-700 cursor-pointer">
               task-3
             </a>
+            <a
+              href="../src/task-4/task-4.html"
+              className="px-4 py-2 hover:bg-zinc-700 cursor-pointer">
+              task-4
+            </a>
           </ul>
         </div>
       )}

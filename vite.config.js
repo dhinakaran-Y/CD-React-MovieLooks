@@ -7,7 +7,12 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {
-      input: ["index.html", "task-2.html", "task-3.html"],
+      input: [
+        "index.html",
+        "task-2.html",
+        "task-3.html",
+        "../src/task-4/task-4.html",
+      ],
     },
   },
 });
