@@ -11,7 +11,7 @@ export default defineConfig({
         "index.html",
         "task-2.html",
         "task-3.html",
-        "../src/task-4/task-4.html",
+        "task-4.html",
       ],
     },
   },
