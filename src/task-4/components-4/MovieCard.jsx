@@ -8,7 +8,7 @@ const MovieCard = ({title, img, id , rating , popular, desc}) => {
           {title}
         </h1>
         <p>Rating : {rating}</p>
-        <p>Popular : {popular}</p>
+        <p>Popular : {popular.toFixed(1)}</p>
         <p className="w-[90%] line-clamp-10">{desc}</p>
       </div>
     </div>
