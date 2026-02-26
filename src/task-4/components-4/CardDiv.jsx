@@ -1,3 +1,4 @@
+import FormDiv from "./FormDiv";
 import MovieCard from "./MovieCard";
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,13 @@ const CardDiv = () => {
   const BASE_API = "https://mimic-server-api.vercel.app/movies";
   const [topRate, setTopRate] = useState(false);
   const [popular, setPopular] = useState(false);
+  const [formShow, setFormShow] = useState({
+    action: false,
+    editId: null,
+    deleteId: null,
+  });
+  const [reRender, setReRender] = useState(true);
+ 
 
   useEffect(() => {
     async function fetchUsers() {
@@ -18,16 +26,26 @@ const CardDiv = () => {
         response = await fetch(BASE_API);
       }
       const data = await response.json();
-      const sortedData = data.sort((a, b) =>
-        a.original_title.localeCompare(b.original_title, "ta-IN"),
-      );
+      const sortedData = [...data].sort((a, b) => {
+        const titleA = a.original_title ?? "";
+        const titleB = b.original_title ?? "";
+        return titleA.localeCompare(titleB);
+      });
 
       if (topRate) {
-        sortedData.sort((a, b) => b.vote_average - a.vote_average);
+        sortedData.sort((a, b) => {
+          const A = a.vote_average ?? 0;
+          const B = b.vote_average ?? 0;
+          return B - A;
+        });
       }
 
       if (popular) {
-        sortedData.sort((a, b) => b.popularity - a.popularity);
+        sortedData.sort((a, b) => {
+          const A = a.popularity ?? 0;
+          const B = b.popularity ?? 0;
+          return B - A;
+        });
       }
 
       setMoviesData(sortedData);
@@ -35,12 +53,12 @@ const CardDiv = () => {
     }
 
     fetchUsers();
-  }, [inputVal, topRate, popular]);
+  }, [inputVal, topRate, popular, reRender]);
 
   return (
     <>
       {/* aside */}
-      <aside className="col-span-3 h-full py-8 space-y-7 px-8 border-r border-white/50">
+      <aside className="col-span-3 h-screen py-8 space-y-7 px-8 border-r border-white/50">
         {/* input */}
         <input
           type="search"
@@ -93,26 +111,39 @@ const CardDiv = () => {
             </p>
           )}
         </div>
+
+        <div className="">
+          <button
+            className="w-full px-4 text-center text-white bg-orange-600 rounded-full py-1 cursor-pointer hover:bg-amber-700 active:scale-105"
+            type="button"
+            onClick={() =>
+              setFormShow({ action: true, editId: null, deleteId: null })
+            }>
+            + Add Movies
+          </button>
+        </div>
       </aside>
 
       {/* movie section */}
       {moviesCount > 0 ? (
-        <section className="col-span-9 grid grid-cols-3 gap-10 h-full overflow-y-scroll p-8">
+        <section className="col-span-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 h-full overflow-y-scroll p-8">
           <div className="col-span-full py-5 relative">
             <hr className="border border-white/20 mr-25" />
             <span className="text-white/50 absolute right-0 top-1/6">
               {moviesCount} movies
             </span>
           </div>
-          {moviesData.map((movies, index) => {
+          {moviesData.map((movie, index) => {
             return (
               <MovieCard
-                title={movies.original_title}
-                img={movies.poster_path}
-                key={`${movies.id}${index}`}
-                rating={movies.vote_average}
-                popular={movies.popularity}
-                desc={movies.overview}
+                title={movie.original_title}
+                img={movie.poster_path}
+                key={`${movie.id}${index}`}
+                id={movie.id}
+                rating={movie.vote_average}
+                popular={movie.popularity}
+                desc={movie.overview}
+                setFormShow={setFormShow}
               />
             );
           })}
@@ -121,6 +152,11 @@ const CardDiv = () => {
         <div className="text-red-500 text-center font-semibold items-center col-span-9 content-center">
           no data found
         </div>
+      )}
+      <div className=""></div>
+
+      {formShow.action && (
+        <FormDiv setFormShow={setFormShow} formShow={formShow} setReRender={setReRender} />
       )}
     </>
   );

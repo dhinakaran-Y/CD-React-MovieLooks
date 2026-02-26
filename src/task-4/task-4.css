@@ -13,3 +13,8 @@ body{
   scrollbar-width: none; /* Hide scrollbar for Firefox */
   -ms-overflow-style: none; /* Hide IE, Edge */
 }
+
+dialog::backdrop{
+  @apply bg-black/50;
+  backdrop-filter: blur(4px);
+}
