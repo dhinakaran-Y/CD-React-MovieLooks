@@ -133,7 +133,7 @@ const FormDiv = ({ setFormShow, formShow, refreshData }) => {
       editMovie(formShow.editId);
     }
     // reset data
-    setFormShow({ action: false, editId: null, deleteId: null });
+    await setFormShow({ action: false, editId: null, deleteId: null });
     refreshData();
     // console.log("done");
   }

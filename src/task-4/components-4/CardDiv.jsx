@@ -17,7 +17,7 @@ const CardDiv = () => {
   const [reRender, setReRender] = useState(0);
 
   useEffect(() => {
-    async function fetchUsers() {
+    async function fetchMovies() {
       let response;
       if (inputVal !== "") {
         response = await fetch(`${BASE_API}?q=${inputVal}`);
@@ -50,9 +50,7 @@ const CardDiv = () => {
       setMoviesData(sortedData);
       setMoviesCount(sortedData.length);
     }
-
-    // console.log(reRender);
-    fetchUsers();
+    fetchMovies();
   }, [inputVal, topRate, popular, reRender]);
 
   function refreshData() {
@@ -83,10 +81,21 @@ const CardDiv = () => {
 
     // delete
     if (formShow.deleteId !== null) {
-      deleteMovie(formShow.deleteId);
+      // confirm msg from user
+      const deleteConfirm = confirm("Are you Sure you want to delete the movie");
+      if (deleteConfirm !== true) {
+        setFormShow({ action: false, editId: null, deleteId: null });
+        return
+      }
+
+      async function handleDeleteMovie() {
+        await deleteMovie(formShow.deleteId);
       // reset data
       setFormShow({ action: false, editId: null, deleteId: null });
       refreshData();
+      }
+
+      handleDeleteMovie()      
     }
   }, [formShow.deleteId]);
 
