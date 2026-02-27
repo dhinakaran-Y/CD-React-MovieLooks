@@ -14,8 +14,7 @@ const CardDiv = () => {
     editId: null,
     deleteId: null,
   });
-  const [reRender, setReRender] = useState(true);
- 
+  const [reRender, setReRender] = useState(0);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -52,9 +51,47 @@ const CardDiv = () => {
       setMoviesCount(sortedData.length);
     }
 
+    // console.log(reRender);
     fetchUsers();
   }, [inputVal, topRate, popular, reRender]);
 
+  function refreshData() {
+    setReRender((pre) => pre + 1);
+  }
+
+  // delete
+  useEffect(() => {
+    async function deleteMovie(movieId) {
+      try {
+        const response = await fetch(
+          `https://mimic-server-api.vercel.app/movies/${movieId}`,
+          {
+            method: "DELETE",
+          },
+        );
+
+        if (!response.ok) throw new Error("Failed to post movie");
+
+        //  const data = await response.json();
+        //  console.log("ok" ,data);
+        alert("Movie deleted successfully!");
+      } catch (error) {
+        console.error("API PUT error", error);
+        alert("Something went wrong in delete API");
+      }
+    }
+
+    // delete
+    if (formShow.deleteId !== null) {
+      deleteMovie(formShow.deleteId);
+      // reset data
+      setFormShow({ action: false, editId: null, deleteId: null });
+      refreshData();
+    }
+  }, [formShow.deleteId]);
+
+  // console.log(formShow);
+  
   return (
     <>
       {/* aside */}
@@ -116,8 +153,9 @@ const CardDiv = () => {
           <button
             className="w-full px-4 text-center text-white bg-orange-600 rounded-full py-1 cursor-pointer hover:bg-amber-700 active:scale-105"
             type="button"
-            onClick={() =>
-              setFormShow({ action: true, editId: null, deleteId: null })
+            onClick={() =>{
+              setFormShow({ action: true, editId: null, deleteId: null });
+            }
             }>
             + Add Movies
           </button>
@@ -156,7 +194,11 @@ const CardDiv = () => {
       <div className=""></div>
 
       {formShow.action && (
-        <FormDiv setFormShow={setFormShow} formShow={formShow} setReRender={setReRender} />
+        <FormDiv
+          setFormShow={setFormShow}
+          formShow={formShow}
+          refreshData={refreshData}
+        />
       )}
     </>
   );

@@ -1,137 +1,142 @@
 import { useEffect, useState } from "react";
 import InputDiv from "./Form/InputDiv";
 
-const FormDiv = ({ setFormShow, formShow, setReRender}) => {
-
-     const [editMovie , setEditMovie] = useState({})
+const FormDiv = ({ setFormShow, formShow, refreshData }) => {
+  const [editMovie, setEditMovie] = useState({});
 
   useEffect(() => {
-  (function showModal() {
-    document.getElementById("dialogEl").showModal();
-    if (formShow.action === true && formShow.editId !== null && formShow.deleteId === null) {
-      async function fetchEditUser(movieId) {
-        try {
-          const response = await fetch(
-            `https://mimic-server-api.vercel.app/movies/${movieId}`,
-          );
-          
-         if (!response.ok) throw new Error("Failed to get movie");
+    (function showModal() {
 
-          const data = await response.json();
-          // console.log(data);
-          setEditMovie(data)
-          // const { original_title, vote_average, poster_path, overview } = data;
-        } catch (error) {
-          console.error("API fetch error :", error);
+      if (formShow.deleteId === null) {
+        document.getElementById("dialogEl").showModal();
+
+        async function fetchEditUser(movieId) {
+          try {
+            const response = await fetch(
+              `https://mimic-server-api.vercel.app/movies/${movieId}`,
+            );
+
+            if (!response.ok) throw new Error("Failed to get movie");
+
+            const data = await response.json();
+            // console.log(data);
+            setEditMovie(data);
+            // const { original_title, vote_average, poster_path, overview } = data;
+          } catch (error) {
+            console.error("API fetch error :", error);
+          }
+        }
+
+        if (formShow.editId !== null) {
+          fetchEditUser(formShow.editId);
         }
       }
-
-      // console.log(formShow.editId);
-      
-      fetchEditUser(formShow.editId);
-    }
-  })();
-  },[])
+    })();
+  }, [formShow]);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const { movieTitle, movieRating, moviePopularity, movieOverview } = e.target;
+    const { movieTitle, movieRating, moviePopularity, movieOverview } =
+      e.target;
 
     const newMovieData = {
       title: movieTitle.value,
       rating: Number(movieRating.value),
       popularity: Number(moviePopularity.value),
-      overview : movieOverview.value
+      overview: movieOverview.value,
     };
 
-    async function postNewMovie() { 
-           
-      try{
-      const response = await fetch(
-        "https://mimic-server-api.vercel.app/movies",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            adult: false,
-            genre_ids: [28, 80, 53],
-            original_language: "ta",
-            original_title: newMovieData.title,
-            overview: newMovieData.overview,
-            popularity: newMovieData.popularity,
-            poster_path:
-              "https://www.designer-daily.com/wp-content/uploads/2012/12/lord-war-creative-movie-posters.jpg",
-            release_date: "2025-01-24",
-            title: newMovieData.title,
-            video: false,
-            vote_average: newMovieData.rating,
-            vote_count: 1,
-          }),
-        },
-      );
+    async function postNewMovie() {
+      try {
+        const response = await fetch(
+          "https://mimic-server-api.vercel.app/movies",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              adult: false,
+              genre_ids: [28, 80, 53],
+              original_language: "ta",
+              original_title: newMovieData.title,
+              overview: newMovieData.overview,
+              popularity: newMovieData.popularity,
+              poster_path:
+                "https://www.designer-daily.com/wp-content/uploads/2012/12/lord-war-creative-movie-posters.jpg",
+              release_date: "2025-01-24",
+              title: newMovieData.title,
+              video: false,
+              vote_average: newMovieData.rating,
+              vote_count: 1,
+            }),
+          },
+        );
 
-      if (!response.ok) throw new Error("Failed to post movie");
+        if (!response.ok) throw new Error("Failed to post movie");
 
-      // const data = await response.json();
-      // console.log("ok" ,data);
-      alert("Movie added successfully!");
-
-      }catch (error) {
+        // const data = await response.json();
+        // console.log("ok" ,data);
+        alert("Movie added successfully!");
+      } catch (error) {
         console.error("Error in posting movie:", error);
         alert("Something went wrong.");
       }
     }
 
     async function editMovie(movieId) {
-      try{
-      const response = await fetch(
-        `https://mimic-server-api.vercel.app/movies/${movieId}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            // adult: false,
-            // genre_ids: [28, 80, 53],
-            // original_language: "ta",
-            original_title: newMovieData.title,
-            overview: newMovieData.overview,
-            popularity: newMovieData.popularity,
-            // poster_path:
-            //   "https://www.designer-daily.com/wp-content/uploads/2012/12/lord-war-creative-movie-posters.jpg",
-            // release_date: "2025-01-24",
-            title: newMovieData.title,
-            // video: false,
-            vote_average: newMovieData.rating,
-            // vote_count: 1,
-          }),
-        },
-      );
- 
-       if (!response.ok) throw new Error("Failed to post movie");
+      try {
+        const response = await fetch(
+          `https://mimic-server-api.vercel.app/movies/${movieId}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              // adult: false,
+              // genre_ids: [28, 80, 53],
+              // original_language: "ta",
+              original_title: newMovieData.title,
+              overview: newMovieData.overview,
+              popularity: newMovieData.popularity,
+              // poster_path:
+              //   "https://www.designer-daily.com/wp-content/uploads/2012/12/lord-war-creative-movie-posters.jpg",
+              // release_date: "2025-01-24",
+              title: newMovieData.title,
+              // video: false,
+              vote_average: newMovieData.rating,
+              // vote_count: 1,
+            }),
+          },
+        );
 
-      //  const data = await response.json();
-      //  console.log("ok" ,data);
-       alert("Movie added successfully!");
-       }catch(error){
-          console.error("API PUT error", error)
-          alert("Something went wrong in PUT API");
-       }     
-      
+        if (!response.ok) throw new Error("Failed to post movie");
+
+        //  const data = await response.json();
+        //  console.log("ok" ,data);
+        alert("Movie updated successfully!");
+      } catch (error) {
+        console.error("API PUT error", error);
+        alert("Something went wrong in PUT API");
+      }
     }
 
-    if(formShow.action === true && formShow.editId === null && formShow.deleteId === null) {
+    if (
+      formShow.action === true &&
+      formShow.editId === null &&
+      formShow.deleteId === null
+    ) {
       postNewMovie();
-    }
-    else if(formShow.action === true && formShow.editId !== null && formShow.deleteId === null){
+    } else if (
+      formShow.action === true &&
+      formShow.editId !== null &&
+      formShow.deleteId === null
+    ) {
       editMovie(formShow.editId);
-      
     }
     // reset data
     setFormShow({ action: false, editId: null, deleteId: null });
-    setReRender((per) => !per);
+    refreshData();
+    // console.log("done");
   }
-
 
   return (
     <dialog
