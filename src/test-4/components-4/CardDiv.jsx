@@ -51,8 +51,6 @@ const CardDiv = () => {
       setMoviesCount(sortedData.length);
     }
     fetchMovies();
-    console.log("hii");
-    
   }, [inputVal, topRate, popular, reRender]);
 
   function refreshData() {
@@ -84,25 +82,27 @@ const CardDiv = () => {
     // delete
     if (formShow.deleteId !== null) {
       // confirm msg from user
-      const deleteConfirm = confirm("Are you Sure you want to delete the movie");
+      const deleteConfirm = confirm(
+        "Are you Sure you want to delete the movie",
+      );
       if (deleteConfirm !== true) {
         setFormShow({ action: false, editId: null, deleteId: null });
-        return
+        return;
       }
 
       async function handleDeleteMovie() {
         await deleteMovie(formShow.deleteId);
-      // reset data
-      setFormShow({ action: false, editId: null, deleteId: null });
-      refreshData();
+        // reset data
+        setFormShow({ action: false, editId: null, deleteId: null });
+        refreshData();
       }
 
-      handleDeleteMovie()      
+      handleDeleteMovie();
     }
   }, [formShow.deleteId]);
 
   // console.log(formShow);
-  
+
   return (
     <>
       {/* aside */}
@@ -164,10 +164,9 @@ const CardDiv = () => {
           <button
             className="w-full px-4 text-center text-white bg-orange-600 rounded-full py-1 cursor-pointer hover:bg-amber-700 active:scale-105"
             type="button"
-            onClick={() =>{
+            onClick={() => {
               setFormShow({ action: true, editId: null, deleteId: null });
-            }
-            }>
+            }}>
             + Add Movies
           </button>
         </div>
@@ -202,7 +201,6 @@ const CardDiv = () => {
           no data found
         </div>
       )}
-      <div className=""></div>
 
       {formShow.action && (
         <FormDiv

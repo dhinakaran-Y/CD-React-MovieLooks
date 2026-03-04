@@ -12,6 +12,7 @@ export default defineConfig({
         "task-2.html",
         "task-3.html",
         "task-4.html",
+        "test-4.html"
       ],
     },
   },
